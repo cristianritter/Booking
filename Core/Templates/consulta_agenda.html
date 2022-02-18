@@ -1,0 +1,39 @@
+{% load bootstrap4 %}
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <title>Consultar Reservas</title>
+        {% bootstrap_css %}
+    </head>
+    <body>
+        <div class="container">
+            <h1>Consultar Reservas</h1>
+            {% bootstrap_messages %}
+
+            <form action="{% url 'consulta_agenda' %}" method="post" class="form" autocomplete="off">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                {% buttons %}
+                    <button type="submit" class="btn btn-primary">Consultar</button>
+                {% endbuttons %}
+                
+            </form>
+            <button onclick="window.location.href='/'" class="btn btn-primary">Voltar</button>
+                    
+        <center>
+            {%for resultado in resultados_consulta %}
+                {{resultado}}</p>
+            {%endfor%}
+        </center>
+            <script type="text/javascript">
+                $('.datetimepicker').datetimepicker({
+                  dateFormat: 'yy-mm-dd'
+                });
+              </script>
+       
+    </div>
+        {% bootstrap_javascript jquery='full' %}
+    </body>
+</html>
+

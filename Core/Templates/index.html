@@ -1,0 +1,31 @@
+{% load bootstrap4 %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <title>Booking</title>
+        {% bootstrap_css %}
+    </head>
+<body>
+    <div class="container">
+        <title>Bem vindo ao Booking</title>
+        <h1> {{FRASE_USUARIO_LOGADO}}</h1>
+        {% if FRASE_USUARIO_LOGADO == 'Faça seu login por favor.'%}
+            <button onclick="window.location.href='admin'" class="btn btn-primary">Login</button>
+        {% else %}
+            <button onclick="window.location.href='/novo_agendamento'" class="btn btn-primary">Novo Agendamento</button>
+            <button onclick="window.location.href='/consulta_agenda'" class="btn btn-primary">Consultar Agendamentos</button>
+            <button onclick="window.location.href='/admin'" class="btn btn-primary">Area do administrador</button>
+            <button onclick="window.location.href='/logout'" class="btn btn-primary">Encerrar sessão</button>
+        {% endif %}
+        
+    </div>          
+
+</body>
+</html>
+
+
+
+
+
