@@ -1,10 +1,11 @@
+from datetime import datetime
 from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.contrib import auth
 
 from .models import Agendamento
-from .forms import AgendamentoModelForm, EquipamentoModelForm, ConsultaAgendamentoForm
+from .forms import AgendamentoModelForm, EquipamentoModelForm, ConsultaAgendamentoForm, ExcluirAgendamentoForm
 
 # Create your views here.
 
@@ -39,6 +40,27 @@ def consulta_agenda(request):
         'resultados_consulta': [' \n'.join(str(item).split('+00:00')) for item in resultados_consulta]
     }
     return render(request, 'consulta_agenda.html', context)
+
+
+@login_required
+def exclui_agenda(request):
+    resultados_consulta = Agendamento.objects.filter(Inicio__gte=(datetime.today()), responsavel=str(request.user))
+    if str(request.method) == 'POST':
+        form = ExcluirAgendamentoForm(request.POST or None) 
+        if form.is_valid():
+            pass
+    else:
+        form = ExcluirAgendamentoForm()
+
+    context = {
+        'form' : form,
+        'resultados_consulta': [' \n'.join(str(item).split('+00:00')) for item in resultados_consulta]
+    }
+    form.fields['agendamento'].choices = [(str(item),str(item)) for item in resultados_consulta]
+    form.fields['agendamento'].choices.insert(0,('', '---------'))
+    return render(request, 'exclui_agenda.html', context)
+
+
 
 @login_required
 def novo_agendamento(request):
